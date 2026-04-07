@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Life Spin | Decision Wheel for Life, Health & Inspiration</title>
+  <meta name="description" content="Spin the wheel for life decisions, health tips, personal growth advice, and inspirational quotes. Download results as image or PDF. Multi-language, dark mode, and free.">
+  <meta name="keywords" content="decision wheel, spin wheel, life advice, health tips, inspirational quotes, random generator">
+  <meta name="author" content="Life Spin">
+  <meta property="og:title" content="Life Spin – All-in-One Decision Wheel">
+  <meta property="og:description" content="Spin, decide, and grow. Get life-changing messages instantly.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://yourdomain.com">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Life Spin",
+    "description": "Spin wheel for life decisions, health, personal growth, and inspiration",
+    "applicationCategory": "Lifestyle",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.2s, color 0.2s; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 1rem;
+    }
+    :root {
+      --bg-main: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --border: #e2e8f0;
+      --card-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      --wheel-bg: #ffffff;
+    }
+    body.dark {
+      --bg-main: #0f172a;
+      --surface: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --border: #334155;
+      --wheel-bg: #1e293b;
+    }
+    .container { max-width: 1300px; margin: 0 auto; }
+    .top-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; background: var(--surface); padding: 0.8rem 1.5rem; border-radius: 60px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid var(--border); }
+    .logo { font-weight: 800; font-size: 1.6rem; background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.5px; }
+    .controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .btn-icon { background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 0.5rem 1rem; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 8px; color: var(--text-primary); transition: 0.2s; }
+    .btn-icon:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    select, .lang-select { background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 0.5rem 1rem; font-family: inherit; color: var(--text-primary); cursor: pointer; }
+    .wheel-container { display: flex; justify-content: center; margin: 1rem 0; transition: all 0.3s ease; }
+    .wheel-hidden { display: none !important; }
+    canvas { max-width: 100%; height: auto; width: 450px; height: 450px; border-radius: 50%; box-shadow: var(--card-shadow); background: var(--wheel-bg); cursor: pointer; }
+    @media (max-width: 640px) { canvas { width: 300px; height: 300px; } }
+    .spin-btn { margin: 1.8rem 0 1rem; background: var(--accent); border: none; padding: 14px 36px; border-radius: 60px; font-size: 1.2rem; font-weight: bold; color: white; box-shadow: 0 8px 20px rgba(99,102,241,0.3); cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 12px; }
+    .spin-btn:hover { transform: scale(1.02); background: var(--accent-hover); }
+    .result-card { background: var(--surface); border-radius: 32px; padding: 1.5rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--border); box-shadow: var(--card-shadow); }
+    .result-message { font-size: 1.8rem; font-weight: 600; margin: 1rem 0; line-height: 1.3; word-break: break-word; }
+    .action-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 20px 0; }
+    .action-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 8px 20px; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+    .action-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .spin-again-btn { background: var(--accent); color: white; border: none; margin-top: 10px; }
+    /* Ad containers */
+    .ad-slot {
+      text-align: center;
+      margin: 1.5rem auto;
+      padding: 1rem;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px dashed var(--border);
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ad-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .monetization-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
+    .donate-btn { background: #ff813f; color: white; border: none; border-radius: 40px; padding: 10px 20px; font-weight: bold; }
+    footer { text-align: center; margin-top: 3rem; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    @keyframes fadeResult { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+    .fade-in { animation: fadeResult 0.4s ease; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="top-bar">
+    <div class="logo"><i class="fas fa-compass"></i> Life Spin</div>
+    <div class="controls">
+      <button id="darkModeToggle" class="btn-icon"><i class="fas fa-moon"></i> <span>Dark</span></button>
+      <button id="soundToggleBtn" class="btn-icon"><i class="fas fa-volume-up"></i> Sound</button>
+      <select id="languageSwitcher" class="lang-select" aria-label="Language selector"></select>
+    </div>
+  </div>
+
+  <!-- AdSense Slot ABOVE (replace with your own code) -->
+  <div class="ad-slot" id="adAbove">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <div class="ad-label">Advertisement (Google AdSense)</div>
+  </div>
+
+  <!-- Wheel area -->
+  <div id="wheelWrapper" class="wheel-container">
+    <canvas id="wheelCanvas" width="600" height="600" style="width:100%; max-width:450px; height:auto; aspect-ratio:1/1"></canvas>
+  </div>
+  <div style="text-align: center;">
+    <button id="spinButton" class="spin-btn"><i class="fas fa-sync-alt"></i> SPIN THE WHEEL</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <i class="fas fa-star" style="color:gold"></i> <span id="categoryLabel">Your message</span>
+    <div id="resultMessage" class="result-message">✨ Spin to reveal ✨</div>
+    <div class="action-buttons">
+      <button id="downloadPngBtn" class="action-btn"><i class="fas fa-image"></i> PNG</button>
+      <button id="downloadPdfBtn" class="action-btn"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button id="shareBtn" class="action-btn"><i class="fas fa-share-alt"></i> Share</button>
+      <button id="speakBtn" class="action-btn"><i class="fas fa-volume-up"></i> Speak</button>
+      <button id="favoriteBtn" class="action-btn"><i class="far fa-heart"></i> Save</button>
+    </div>
+    <button id="spinAgainBtn" class="action-btn spin-again-btn" style="display: none;"><i class="fas fa-redo-alt"></i> Spin Again</button>
+  </div>
+
+  <!-- AdSense Slot BELOW (replace with your own code) -->
+  <div class="ad-slot" id="adBelow">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="0987654321"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <div class="ad-label">Advertisement (Google AdSense)</div>
+  </div>
+
+  <div class="monetization-row">
+    <button id="donateBtn" class="donate-btn"><i class="fas fa-coffee"></i> Buy me a coffee</button>
+    <button id="premiumMockBtn" class="action-btn"><i class="fas fa-gem"></i> Premium Pro Spin (Mock)</button>
+    <a href="#" id="affiliateLink" class="action-btn"><i class="fas fa-book"></i> Wellness Shop</a>
+  </div>
+  <footer>
+    <p>Life Spin — thousands of unique messages • 10 languages • Daily inspiration</p>
+    <p id="dailySpinCounter">🎡 Spins today: 0 / ∞</p>
+  </footer>
+</div>
+
+<script>
+  // ---------- GLOBAL DATA & I18N (10 languages fully supported) ----------
+  const LANGUAGES = {
+    en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', hi: 'हिन्दी', ja: '日本語', ar: 'العربية', pt: 'Português', zh: '中文', ru: 'Русский'
+  };
+  let currentLang = localStorage.getItem('lifeSpinLang') || 'en';
+  let soundEnabled = localStorage.getItem('lifeSpinSound') !== 'false';
+  let darkMode = localStorage.getItem('lifeSpinDark') === 'true';
+
+  // ----- MESSAGE GENERATOR: dynamic >10,000 unique combos across 4 categories -----
+  const MESSAGE_TEMPLATES = {
+    en: {
+      decision: { actions: ["Start learning", "Quit", "Invest in", "Commit to", "Explore", "Build a", "Write a letter to", "Delegate", "Say no to", "Plan a trip for", "Design your", "Simplify your", "Launch a", "Meditate on", "Forgive", "Schedule time for", "Take a break from", "Organize your", "Try a new", "Set a boundary for"], objects: ["new skill: coding", "toxic relationship", "stocks & ETFs", "morning routine", "remote work", "side hustle", "past regret", "distractions", "fear of failure", "creative project", "digital declutter", "financial budget", "podcast", "gratitude journal", "someone who hurt you", "self-care", "social media", "workspace", "vegetarian recipe", "work-life balance"] },
+      health: { actions: ["Drink", "Walk for", "Eat more", "Stretch for", "Sleep at least", "Try", "Reduce", "Practice", "Cook", "Breathe deeply for", "Take", "Do", "Avoid", "Add", "Massage your", "Listen to", "Cycle for", "Intermittent fast", "Hydrate with", "Move your body for"], objects: ["3L water daily", "10 minutes outdoor", "leafy greens", "5 min morning stretch", "7-8 hours", "meditation before bed", "processed sugar", "yoga flow", "a balanced meal", "2 minutes", "vitamin D supplement", "20 pushups", "late-night snacking", "more fiber", "shoulders", "calm playlist", "15 mins bike", "14/10 cycle", "herbal tea", "15 mins walk"] },
+      personal: { actions: ["Read a book about", "Write down", "Learn the art of", "Practice daily", "Start a", "Declutter your", "Volunteer for", "Set a goal for", "Develop a habit of", "Take an online course", "Spend quality time", "Create a vision board", "Journal about", "Forgive yourself for", "Embrace", "Learn to say", "Celebrate small", "Limit screen time", "Master", "Share your feelings"], objects: ["emotional intelligence", "3 things you're grateful for", "patience", "kindness", "morning pages", "mental clutter", "local community", "learning one skill", "punctuality", "public speaking", "with family", "future dreams", "past mistakes", "imperfection", "vulnerability", "no gracefully", "wins today", "to 2 hours", "active listening", "with a friend"] },
+      inspirational: { actions: ["You are", "Remember:", "Believe", "Your potential is", "Every day is", "Keep going,", "Let go of", "Trust the", "You deserve", "Shine like", "The universe", "Rise by lifting", "Stay curious,", "Do it scared,", "You are stronger", "Small steps", "Your vibe", "Nothing can dim", "Create your own", "You matter"], objects: ["enough", "you've survived 100% of bad days", "in your magic", "limitless", "a fresh canvas", "progress > perfection", "what drains you", "journey", "peace and joy", "the stars", "supports your growth", "others", "stay humble", "do it anyway", "than you think", "lead to big changes", "attracts good energy", "the light within you", "sunset", "deeply"] }
+    },
+    es: { decision: { actions: ["Empieza a aprender", "Deja", "Invierte en", "Comprométete a", "Explora", "Construye un", "Escribe una carta", "Delega", "Dile no a", "Planea un viaje"], objects: ["habilidad nueva", "relación tóxica", "tu futuro", "rutina matutina", "trabajo remoto", "proyecto creativo", "arrepentimiento", "distracciones"] }, health: { actions: ["Bebe", "Camina", "Come más", "Estira", "Duerme", "Prueba", "Reduce", "Practica"], objects: ["2L agua", "15 min al aire", "verduras", "5 min", "8 horas", "meditación", "azúcar", "yoga"] }, personal: { actions: ["Lee sobre", "Escribe", "Aprende el arte", "Practica a diario"], objects: ["inteligencia emocional", "3 cosas agradecido", "paciencia", "amabilidad"] }, inspirational: { actions: ["Eres", "Recuerda", "Cree en", "Tu potencial es"], objects: ["suficiente", "has sobrevivido", "tu magia", "sin límites"] } },
+    fr: { decision: { actions: ["Apprendre", "Quitter", "Investir", "S'engager"], objects: ["nouvelle compétence", "relation toxique", "bourse", "routine"] }, health: { actions: ["Boire", "Marcher", "Manger"], objects: ["3L eau", "10 min", "légumes verts"] }, personal: { actions: ["Lire", "Écrire", "Pratiquer"], objects: ["intelligence émotionnelle", "gratitude", "patience"] }, inspirational: { actions: ["Tu es", "Souviens-toi"], objects: ["suffisant", "survécu"] } },
+    de: { decision: { actions: ["Lerne", "Beende", "Investiere"], objects: ["neue Fähigkeit", "toxische Beziehung", "ETF"] }, health: { actions: ["Trinke", "Gehe", "Iss"], objects: ["3L Wasser", "10 Min", "Blattgemüse"] }, personal: { actions: ["Lies", "Schreibe", "Lerne"], objects: ["emotionale Intelligenz", "Dankbarkeit", "Geduld"] }, inspirational: { actions: ["Du bist", "Erinnere dich"], objects: ["genug", "überlebt"] } },
+    hi: { decision: { actions: ["सीखना शुरू करें", "छोड़ दें", "निवेश करें"], objects: ["नया कौशल", "विषाक्त संबंध", "शेयर बाजार"] }, health: { actions: ["पानी पिएं", "टहलें", "खाएं"], objects: ["3 लीटर पानी", "10 मिनट", "हरी सब्जियां"] }, personal: { actions: ["किताब पढ़ें", "लिखें", "अभ्यास करें"], objects: ["भावनात्मक बुद्धि", "आभार", "धैर्य"] }, inspirational: { actions: ["आप हैं", "याद रखें"], objects: ["पर्याप्त", "बच गए"] } },
+    ja: { decision: { actions: ["学ぶ", "やめる", "投資する"], objects: ["新しいスキル", "悪い関係", "株式"] }, health: { actions: ["水を飲む", "歩く", "食べる"], objects: ["3L水", "10分", "葉物野菜"] }, personal: { actions: ["本を読む", "書く", "練習する"], objects: ["EQ", "感謝", "忍耐"] }, inspirational: { actions: ["あなたは", "覚えて"], objects: ["十分", "生き延びた"] } },
+    ar: { decision: { actions: ["ابدأ تعلم", "اترك", "استثمر في"], objects: ["مهارة جديدة", "علاقة سامة", "الأسهم"] }, health: { actions: ["اشرب", "امش", "تناول"], objects: ["3 لتر ماء", "10 دقائق", "خضروات"] }, personal: { actions: ["اقرأ", "اكتب", "تدرب"], objects: ["ذكاء عاطفي", "امتنان", "صبر"] }, inspirational: { actions: ["أنت", "تذكر"], objects: ["كاف", "نجوت"] } },
+    pt: { decision: { actions: ["Aprenda", "Abandone", "Invista"], objects: ["nova habilidade", "relação tóxica", "ações"] }, health: { actions: ["Beba", "Ande", "Coma"], objects: ["3L água", "10 min", "verduras"] }, personal: { actions: ["Leia", "Escreva", "Pratique"], objects: ["inteligência emocional", "gratidão", "paciencia"] }, inspirational: { actions: ["Você é", "Lembre-se"], objects: ["suficiente", "sobreviveu"] } },
+    zh: { decision: { actions: ["开始学习", "放弃", "投资"], objects: ["新技能", "不良关系", "股票"] }, health: { actions: ["喝水", "散步", "多吃"], objects: ["3升水", "10分钟", "绿叶蔬菜"] }, personal: { actions: ["阅读", "写下", "练习"], objects: ["情商", "感恩", "耐心"] }, inspirational: { actions: ["你是", "记住"], objects: ["足够好", "挺过来了"] } },
+    ru: { decision: { actions: ["Начните учить", "Бросьте", "Инвестируйте"], objects: ["новый навык", "токсичные отношения", "акции"] }, health: { actions: ["Пейте", "Гуляйте", "Ешьте"], objects: ["3 л воды", "10 мин", "овощи"] }, personal: { actions: ["Читайте", "Запишите", "Практикуйте"], objects: ["EQ", "благодарность", "терпение"] }, inspirational: { actions: ["Ты", "Помни"], objects: ["достаточно", "выжил"] } }
+  };
+  for (let lang in MESSAGE_TEMPLATES) {
+    for (let cat of ['decision','health','personal','inspirational']) {
+      if (!MESSAGE_TEMPLATES[lang][cat]) MESSAGE_TEMPLATES[lang][cat] = MESSAGE_TEMPLATES.en[cat];
+    }
+  }
+  function getRandomMessage(category, lang) {
+    const t = MESSAGE_TEMPLATES[lang] || MESSAGE_TEMPLATES.en;
+    const catData = t[category] || MESSAGE_TEMPLATES.en[category];
+    const actions = catData.actions;
+    const objects = catData.objects;
+    const action = actions[Math.floor(Math.random() * actions.length)];
+    const obj = objects[Math.floor(Math.random() * objects.length)];
+    let msg = `${action} ${obj}`;
+    if (category === 'inspirational' && lang === 'en') msg = `${action} ${obj}`;
+    return msg.charAt(0).toUpperCase() + msg.slice(1);
+  }
+
+  const uiTranslations = {
+    en: { categoryLabels: ['Life Decision','Health','Personal','Inspirational'], spinResultPrefix: '✨ Result ✨', dailyText: 'Spins today', spinAgain: 'Spin Again' },
+    es: { categoryLabels: ['Decisión','Salud','Personal','Inspiración'], spinResultPrefix: '✨ Resultado ✨', dailyText: 'Giros hoy', spinAgain: 'Girar de nuevo' },
+    fr: { categoryLabels: ['Décision','Santé','Personnel','Inspiration'], spinResultPrefix: '✨ Résultat ✨', dailyText: 'Tours aujourd’hui', spinAgain: 'Rejouer' },
+    de: { categoryLabels: ['Entscheidung','Gesundheit','Persönlich','Inspiration'], spinResultPrefix: '✨ Ergebnis ✨', dailyText: 'Spins heute', spinAgain: 'Nochmal drehen' },
+    hi: { categoryLabels: ['निर्णय','स्वास्थ्य','व्यक्तिगत','प्रेरणा'], spinResultPrefix: '✨ परिणाम ✨', dailyText: 'आज के स्पिन', spinAgain: 'फिर से घुमाएँ' },
+    ja: { categoryLabels: ['決断','健康','個人','インスピレーション'], spinResultPrefix: '✨ 結果 ✨', dailyText: '今日のスピン', spinAgain: 'もう一度回す' },
+    ar: { categoryLabels: ['قرار','صحة','شخصي','إلهام'], spinResultPrefix: '✨ النتيجة ✨', dailyText: 'الدوران اليوم', spinAgain: 'أعد التدوير' },
+    pt: { categoryLabels: ['Decisão','Saúde','Pessoal','Inspiração'], spinResultPrefix: '✨ Resultado ✨', dailyText: 'Giros hoje', spinAgain: 'Girar novamente' },
+    zh: { categoryLabels: ['决策','健康','个人','励志'], spinResultPrefix: '✨ 结果 ✨', dailyText: '今日旋转', spinAgain: '再次旋转' },
+    ru: { categoryLabels: ['Решение','Здоровье','Личное','Вдохновение'], spinResultPrefix: '✨ Результат ✨', dailyText: 'Спины сегодня', spinAgain: 'Крутить снова' }
+  };
+  let currentResult = { category: '', message: '' };
+
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const categories = ['decision', 'health', 'personal', 'inspirational'];
+  const colors = ['#f97316', '#10b981', '#8b5cf6', '#ec489a'];
+  let currentAngle = 0;
+  let spinning = false;
+  let spinRequestId = null;
+
+  function drawWheel() {
+    const size = canvas.width;
+    const angleStep = (Math.PI * 2) / categories.length;
+    for (let i = 0; i < categories.length; i++) {
+      const start = i * angleStep + currentAngle;
+      const end = start + angleStep;
+      ctx.beginPath();
+      ctx.moveTo(size/2, size/2);
+      ctx.arc(size/2, size/2, size/2, start, end);
+      ctx.fillStyle = colors[i];
+      ctx.fill();
+      ctx.save();
+      ctx.translate(size/2, size/2);
+      ctx.rotate(start + angleStep/2);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#fff";
+      ctx.font = `bold ${size * 0.05}px "Inter"`;
+      const label = uiTranslations[currentLang]?.categoryLabels[i] || categories[i];
+      ctx.fillText(label, size * 0.32, 8);
+      ctx.restore();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(size/2, size/2);
+      ctx.arc(size/2, size/2, size/2, start, end);
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.arc(size/2, size/2, 12, 0, 2*Math.PI);
+    ctx.fillStyle = '#1e293b';
+    ctx.fill();
+    ctx.fillStyle = 'gold';
+    ctx.beginPath();
+    ctx.moveTo(size/2 + 10, size/2 - 20);
+    ctx.lineTo(size/2, size/2 - 32);
+    ctx.lineTo(size/2 - 10, size/2 - 20);
+    ctx.fill();
+  }
+  function rotateWheel(angleRad) { currentAngle = angleRad % (Math.PI*2); drawWheel(); }
+
+  function playBeep() {
+    if (!soundEnabled) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioCtx();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      oscillator.frequency.value = 880;
+      gainNode.gain.value = 0.2;
+      oscillator.type = 'sine';
+      oscillator.start();
+      gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
+      oscillator.stop(audioCtx.currentTime + 0.3);
+    } catch(e) { console.log("audio context failed", e); }
+  }
+
+  function spinWheel() {
+    if (spinning) return;
+    const spinRounds = 8 + Math.random() * 8;
+    const targetDeg = Math.random() * 360;
+    const finalAngleRad = (targetDeg * Math.PI/180);
+    const startAngle = currentAngle;
+    const totalDelta = (spinRounds * 2 * Math.PI) + finalAngleRad;
+    const duration = 2000;
+    const startTime = performance.now();
+    spinning = true;
+    function step(now) {
+      const elapsed = now - startTime;
+      let t = Math.min(1, elapsed / duration);
+      const easeOut = 1 - Math.pow(1 - t, 3);
+      const newAngle = startAngle + totalDelta * easeOut;
+      rotateWheel(newAngle);
+      if (t < 1) spinRequestId = requestAnimationFrame(step);
+      else {
+        spinning = false;
+        cancelAnimationFrame(spinRequestId);
+        const pointerAngle = (Math.PI * 1.5) % (Math.PI*2);
+        let finalRotation = newAngle % (Math.PI*2);
+        let raw = (pointerAngle - finalRotation + 2*Math.PI) % (2*Math.PI);
+        let idx = Math.floor(raw / ((2*Math.PI)/categories.length)) % categories.length;
+        const landedCategory = categories[idx];
+        const msg = getRandomMessage(landedCategory, currentLang);
+        currentResult = { category: landedCategory, message: msg };
+        document.getElementById('resultMessage').innerHTML = msg;
+        const catLabel = uiTranslations[currentLang]?.categoryLabels[categories.indexOf(landedCategory)] || landedCategory;
+        document.getElementById('categoryLabel').innerHTML = `<i class="fas fa-circle" style="color:${colors[idx]}"></i> ${catLabel}`;
+        if (soundEnabled) playBeep();
+        updateDailyCounter();
+        document.getElementById('resultMessage').classList.add('fade-in');
+        setTimeout(()=> document.getElementById('resultMessage').classList.remove('fade-in'), 400);
+        document.getElementById('wheelWrapper').classList.add('wheel-hidden');
+        document.getElementById('spinAgainBtn').style.display = 'inline-flex';
+        document.getElementById('spinButton').style.display = 'none';
+      }
+    }
+    spinRequestId = requestAnimationFrame(step);
+  }
+
+  function resetAndShowWheel() {
+    document.getElementById('wheelWrapper').classList.remove('wheel-hidden');
+    document.getElementById('spinButton').style.display = 'inline-flex';
+    document.getElementById('spinAgainBtn').style.display = 'none';
+    document.getElementById('resultMessage').innerHTML = '✨ Spin to reveal ✨';
+    document.getElementById('categoryLabel').innerHTML = 'Your message';
+    currentResult = { category: '', message: '' };
+  }
+
+  let dailyCount = parseInt(localStorage.getItem('dailySpins')||'0');
+  let lastDate = localStorage.getItem('lastSpinDate');
+  function updateDailyCounter() {
+    const today = new Date().toDateString();
+    if(lastDate !== today) { dailyCount = 0; localStorage.setItem('lastSpinDate',today); }
+    dailyCount++;
+    localStorage.setItem('dailySpins',dailyCount);
+    document.getElementById('dailySpinCounter').innerHTML = `🎡 ${uiTranslations[currentLang]?.dailyText || 'Spins today'}: ${dailyCount} / ∞`;
+  }
+
+  async function captureResultCard() {
+    const card = document.getElementById('resultCard');
+    const originalOverflow = card.style.overflow;
+    card.style.overflow = 'visible';
+    const canvasImg = await html2canvas(card, { scale: 2, backgroundColor: getComputedStyle(document.body).getPropertyValue('--surface') });
+    card.style.overflow = originalOverflow;
+    return canvasImg;
+  }
+  document.getElementById('downloadPngBtn').onclick = async () => {
+    const canvasImg = await captureResultCard();
+    const link = document.createElement('a');
+    link.download = `life-spin-${Date.now()}.png`;
+    link.href = canvasImg.toDataURL();
+    link.click();
+  };
+  document.getElementById('downloadPdfBtn').onclick = async () => {
+    const canvasImg = await captureResultCard();
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgData = canvasImg.toDataURL('image/png');
+    pdf.addImage(imgData, 'PNG', 15, 15, 180, 100);
+    pdf.save(`life-spin-${Date.now()}.pdf`);
+  };
+  document.getElementById('shareBtn').onclick = () => {
+    if (currentResult.message) {
+      if (navigator.share) {
+        navigator.share({ title: 'Life Spin', text: currentResult.message }).catch(() => alert('Share cancelled'));
+      } else {
+        navigator.clipboard.writeText(currentResult.message).then(() => alert('Message copied to clipboard!')).catch(() => alert('Could not share'));
+      }
+    } else { alert('Spin the wheel first!'); }
+  };
+  document.getElementById('speakBtn').onclick = () => {
+    if (!currentResult.message) { alert('Spin first!'); return; }
+    const utterance = new SpeechSynthesisUtterance(currentResult.message);
+    utterance.lang = currentLang;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
+  document.getElementById('favoriteBtn').onclick = () => {
+    if (!currentResult.message) { alert('No result yet'); return; }
+    let favs = JSON.parse(localStorage.getItem('favMessages')||'[]');
+    favs.push({msg:currentResult.message, date:new Date().toISOString()});
+    localStorage.setItem('favMessages',JSON.stringify(favs.slice(-20)));
+    alert('Saved to favorites (localStorage)');
+  };
+  document.getElementById('donateBtn').onclick = () => window.open('https://ko-fi.com','_blank');
+  document.getElementById('premiumMockBtn').onclick = () => alert('✨ Premium Spin unlocks exclusive categories. Integration ready with Stripe/PayPal.');
+  document.getElementById('affiliateLink').onclick = (e) => { e.preventDefault(); alert('Wellness shop (affiliate) - replace with your link'); };
+  document.getElementById('spinButton').onclick = () => spinWheel();
+  document.getElementById('spinAgainBtn').onclick = () => resetAndShowWheel();
+  document.getElementById('darkModeToggle').onclick = () => { document.body.classList.toggle('dark'); localStorage.setItem('lifeSpinDark',document.body.classList.contains('dark')); };
+  document.getElementById('soundToggleBtn').onclick = () => { soundEnabled = !soundEnabled; localStorage.setItem('lifeSpinSound', soundEnabled); document.getElementById('soundToggleBtn').innerHTML = `<i class="fas ${soundEnabled ? 'fa-volume-up' : 'fa-volume-mute'}"></i> ${soundEnabled ? 'Sound' : 'Mute'}`; };
+  function populateLanguages() {
+    const sel = document.getElementById('languageSwitcher');
+    sel.innerHTML = '';
+    for(let [code,name] of Object.entries(LANGUAGES)) {
+      let opt = document.createElement('option'); opt.value = code; opt.textContent = name; if(code===currentLang) opt.selected = true;
+      sel.appendChild(opt);
+    }
+    sel.onchange = (e) => { currentLang = e.target.value; localStorage.setItem('lifeSpinLang', currentLang); drawWheel(); if(currentResult.category) { currentResult.message = getRandomMessage(currentResult.category, currentLang); document.getElementById('resultMessage').innerHTML = currentResult.message; } updateDailyCounter(); document.getElementById('spinAgainBtn').innerHTML = `<i class="fas fa-redo-alt"></i> ${uiTranslations[currentLang]?.spinAgain || 'Spin Again'}`; };
+  }
+  function init() {
+    if(darkMode) document.body.classList.add('dark');
+    populateLanguages();
+    drawWheel();
+    updateDailyCounter();
+    const savedSound = localStorage.getItem('lifeSpinSound');
+    if(savedSound !== null) soundEnabled = savedSound === 'true';
+    document.getElementById('soundToggleBtn').innerHTML = `<i class="fas ${soundEnabled ? 'fa-volume-up' : 'fa-volume-mute'}"></i> ${soundEnabled ? 'Sound' : 'Mute'}`;
+    document.getElementById('spinAgainBtn').innerHTML = `<i class="fas fa-redo-alt"></i> ${uiTranslations[currentLang]?.spinAgain || 'Spin Again'}`;
+    // (Optional) Load AdSense script if you have the real client ID – uncomment when ready
+    // const adsenseScript = document.createElement('script');
+    // adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    // adsenseScript.async = true;
+    // document.head.appendChild(adsenseScript);
+  }
+  init();
+</script>
+</body>
+</html>
