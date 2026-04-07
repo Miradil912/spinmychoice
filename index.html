@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Spin — Your Daily Oracle</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Spin the wheel of life! Get daily wisdom on decisions, health, personal growth, and inspiration. Free online decision wheel with 10,000+ unique messages." />
+  <meta name="keywords" content="spin wheel, life decision, daily inspiration, random quote, health tips, personal growth, decision maker" />
+  <meta name="author" content="Life Spin" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lifespin.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Life Spin — Spin the Wheel of Life" />
+  <meta property="og:description" content="Let the universe guide you. One spin unlocks wisdom on decisions, health, personal growth, and inspiration." />
+  <meta property="og:image" content="https://lifespin.app/assets/images/og-image.png" />
+  <meta property="og:url" content="https://lifespin.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Life Spin" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Life Spin — Your Daily Oracle" />
+  <meta name="twitter:description" content="Spin the wheel and receive daily wisdom. Free, beautiful, and inspiring." />
+  <meta name="twitter:image" content="https://lifespin.app/assets/images/og-image.png" />
+
+  <!-- Theme color -->
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Life Spin",
+    "url": "https://lifespin.app",
+    "description": "A spin wheel that delivers daily wisdom on life decisions, health, personal growth, and inspiration.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ HEADER ══ -->
+<header role="banner">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="Life Spin Home">
+      <span class="logo-icon">🌀</span>
+      <span>Life Spin</span>
+    </a>
+
+    <div class="header-controls">
+      <!-- Language switcher -->
+      <select class="lang-select" id="langSelect" aria-label="Select language">
+        <option value="en">🇬🇧 EN</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="hi">🇮🇳 HI</option>
+        <option value="ja">🇯🇵 JA</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="pt">🇧🇷 PT</option>
+        <option value="zh">🇨🇳 ZH</option>
+        <option value="ru">🇷🇺 RU</option>
+      </select>
+
+      <!-- Pro button -->
+      <button class="icon-btn" id="proBtn" title="Unlock Pro" aria-label="Unlock Pro">⭐</button>
+
+      <!-- Theme toggle -->
+      <button class="icon-btn" id="themeToggle" title="Toggle dark/light mode" aria-label="Toggle theme">🌙</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════ MAIN ══ -->
+<main role="main">
+
+  <!-- AdSense Banner (top) -->
+  <div class="ad-container ad-banner" aria-label="Advertisement">
+    <!-- Replace with real AdSense ins tag:
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXX" data-ad-slot="XXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    -->
+    <span style="opacity:0.3;font-size:0.75rem;">Advertisement</span>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <p class="hero-eyebrow" data-i18n="tagline">Your Daily Oracle</p>
+    <h1 id="heroTitle" data-i18n="title">Spin the Wheel of Life</h1>
+    <p data-i18n="subtitle">Let the universe guide you. One spin unlocks wisdom across decisions, health, personal growth, and inspiration.</p>
+  </section>
+
+  <!-- ── Spin Arena ── -->
+  <section class="spin-arena" aria-label="Spin Wheel">
+
+    <!-- Wheel -->
+    <div class="wheel-container">
+      <div class="wheel-wrapper" id="wheelWrapper" role="img" aria-label="Life Spin Wheel">
+        <canvas id="spinWheel" tabindex="0" role="button" aria-label="Spin the wheel"></canvas>
+        <div class="wheel-pointer" aria-hidden="true"></div>
+        <button class="wheel-center-btn" id="centerBtn" aria-label="Spin wheel">🌀</button>
+      </div>
+
+      <!-- Spin Button -->
+      <button class="spin-btn" id="spinBtn" aria-label="Spin the Life Wheel">
+        <span data-i18n="spinBtn">✦ SPIN THE WHEEL ✦</span>
+      </button>
+
+      <!-- Category Legend -->
+      <div class="category-legend" role="list" aria-label="Wheel categories">
+        <div class="legend-item" role="listitem"><div class="legend-dot" style="background:#7c4dff"></div><span>💡 Decision</span></div>
+        <div class="legend-item" role="listitem"><div class="legend-dot" style="background:#00c897"></div><span>🩺 Health</span></div>
+        <div class="legend-item" role="listitem"><div class="legend-dot" style="background:#ff6b6b"></div><span>🌱 Personal</span></div>
+        <div class="legend-item" role="listitem"><div class="legend-dot" style="background:#ffd166"></div><span>✨ Inspire</span></div>
+      </div>
+    </div>
+
+    <!-- Result Panel -->
+    <div class="result-panel" id="resultPanel" aria-live="polite" aria-label="Spin result">
+      <!-- Idle state -->
+      <div class="result-idle" id="resultIdle">
+        <div class="idle-icon">🌀</div>
+        <p id="resultPlaceholder" data-i18n="resultPlaceholder">Your wisdom awaits…</p>
+        <p style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted)" data-i18n="resultPlaceholderSub">Press SPIN or click the wheel to reveal your message.</p>
+      </div>
+
+      <!-- Result content -->
+      <div class="result-content" id="resultContent" aria-live="assertive">
+        <div class="result-category-badge" id="resultBadge"></div>
+
+        <blockquote class="result-message" id="resultMessage"></blockquote>
+
+        <div class="result-meta">
+          <span>🕐</span>
+          <span id="resultTimestamp"></span>
+        </div>
+
+        <div class="result-actions">
+          <button class="action-btn primary" id="downloadPngBtn" aria-label="Download result as PNG">
+            🖼 <span data-i18n="downloadPng">Save as Image</span>
+          </button>
+          <button class="action-btn" id="downloadPdfBtn" aria-label="Download result as PDF">
+            📄 <span data-i18n="downloadPdf">Save as PDF</span>
+          </button>
+          <button class="action-btn" id="shareBtn" aria-label="Share result">
+            ✈ <span data-i18n="shareBtn">Share</span>
+          </button>
+          <button class="action-btn voice-btn" id="voiceBtn" aria-label="Read result aloud">
+            🔊 <span data-i18n="voiceBtn">Read Aloud</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RNG Strip ── -->
+  <div class="rng-strip" role="toolbar" aria-label="Settings">
+    <div class="rng-toggle">
+      <label class="toggle-switch" for="cryptoRng" aria-label="Casino-grade random number generator">
+        <input type="checkbox" id="cryptoRng" />
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"></span>
+      </label>
+      <span data-i18n="rngLabel">Casino-grade RNG</span>
+    </div>
+
+    <div class="spin-count">
+      <span data-i18n="spinsCount">Total spins:</span>
+      <strong id="spinCountDisplay">0</strong>
+    </div>
+
+    <button class="action-btn" id="clearHistoryBtn" style="font-size:0.78rem;" aria-label="Clear spin history">
+      🗑 Clear History
+    </button>
+  </div>
+
+  <!-- ── Features ── -->
+  <section class="features" aria-label="Features">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>Fair & Random</h3>
+      <p>Provably fair spin with optional Web Crypto API for true casino-grade randomness. No bias, no patterns.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <h3>10,000+ Messages</h3>
+      <p>Hundreds of unique, thoughtfully crafted messages across four life categories. Always fresh.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3>10 Languages</h3>
+      <p>Available in English, Spanish, French, German, Hindi, Japanese, Arabic, Portuguese, Chinese & Russian.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>Save & Share</h3>
+      <p>Download your result as a beautiful PNG card or PDF. Share instantly via Web Share API.</p>
+    </div>
+  </section>
+
+  <!-- ── History ── -->
+  <section class="history-section" aria-labelledby="historyTitle">
+    <h2 class="section-title" id="historyTitle">
+      <span data-i18n="historyTitle">Your Spin History</span>
+    </h2>
+    <div class="history-grid" id="historyGrid">
+      <div class="history-empty" data-i18n="historyEmpty">No spins yet — your journey begins with the first spin.</div>
+    </div>
+  </section>
+
+  <!-- ── Donate ── -->
+  <section class="donate-section" aria-label="Support Life Spin">
+    <h3 data-i18n="donateTitle">Support Life Spin</h3>
+    <p data-i18n="donateSub">Help keep this tool free for everyone.</p>
+    <a class="donate-btn" id="donateBtn" href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">
+      <span data-i18n="donateBtn">☕ Buy Me a Coffee</span>
+    </a>
+  </section>
+
+  <!-- AdSense Footer Banner -->
+  <div class="ad-container ad-footer" aria-label="Advertisement">
+    <!-- Replace with real AdSense ins tag -->
+    <span style="opacity:0.3;font-size:0.75rem;">Advertisement</span>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════════ FOOTER ══ -->
+<footer role="contentinfo">
+  <p>
+    <span data-i18n="footerText">© 2025 Life Spin · Made with ❤️ · </span>
+    <a href="/privacy.html" data-i18n="privacy">Privacy</a> ·
+    <a href="/terms.html" data-i18n="terms">Terms</a> ·
+    <a href="https://github.com/lifespin/life-spin" target="_blank" rel="noopener">GitHub</a>
+  </p>
+  <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.6;">
+    Built with Canvas API · Web Crypto API · Web Speech API · Web Share API
+  </p>
+</footer>
+
+<!-- ══════════════════════════════════════ MODALS ══ -->
+
+<!-- Pro Modal -->
+<div class="modal-overlay" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('proModal').classList.remove('open')" aria-label="Close">✕</button>
+    <h3 id="proTitle" data-i18n="proTitle">⭐ Unlock Pro Spin</h3>
+    <p data-i18n="proSub">Access exclusive categories: Career Mastery, Relationship Wisdom, Wealth Building, and 5,000 more messages.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <button class="spin-btn" style="width:100%;" id="proCheckoutBtn" data-i18n="proBtn">Unlock Pro — $4.99/mo</button>
+      <button class="action-btn" style="justify-content:center;" onclick="document.getElementById('proModal').classList.remove('open')">Maybe later</button>
+    </div>
+  </div>
+</div>
+
+<!-- Support Modal (every 10 spins) -->
+<div class="modal-overlay" id="supportModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('supportModal').classList.remove('open')" aria-label="Close">✕</button>
+    <h3>🌀 Enjoying Life Spin?</h3>
+    <p>You've spun the wheel quite a few times! Consider supporting us to keep this tool free and growing.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <a class="donate-btn" href="https://ko-fi.com" target="_blank" rel="noopener" style="justify-content:center;display:flex;" onclick="document.getElementById('supportModal').classList.remove('open')">☕ Buy Me a Coffee</a>
+      <button class="action-btn" style="justify-content:center;" onclick="document.getElementById('supportModal').classList.remove('open')">Continue for free</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ══════════════════════════════════════ SCRIPTS ══ -->
+<script src="js/i18n.js"></script>
+<script src="js/wheel.js"></script>
+<script src="js/download.js"></script>
+<script src="js/monetization.js"></script>
+
+<script>
+// ──────────────────────── App Init ────────────────────────
+(async () => {
+  // Load messages
+  let messages = {};
+  try {
+    const res = await fetch('data/messages.json');
+    messages = await res.json();
+  } catch (e) {
+    console.warn('Could not load messages.json. Using defaults.', e);
+  }
+
+  // Init i18n
+  i18n.init();
+  const langSelect = document.getElementById('langSelect');
+  langSelect.value = i18n.currentLang;
+  langSelect.addEventListener('change', e => {
+    i18n.setLang(e.target.value);
+    updateHistoryUI(wheel.history);
+  });
+
+  // Init wheel
+  const wheel = getWheel('spinWheel');
+  wheel.setMessages(messages);
+
+  // Sync spin count display
+  document.getElementById('spinCountDisplay').textContent = wheel.spinCount;
+
+  // Sync RNG toggle
+  const cryptoRng = document.getElementById('cryptoRng');
+  cryptoRng.addEventListener('change', e => {
+    wheel.useCryptoRng = e.target.checked;
+    showToast(e.target.checked ? '🎲 Casino-grade RNG enabled' : '🎲 Standard RNG active');
+  });
+
+  // Theme toggle
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('lifespin_theme') || 'dark';
+  html.dataset.theme = savedTheme;
+  themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+  themeBtn.addEventListener('click', () => {
+    const isDark = html.dataset.theme === 'dark';
+    html.dataset.theme = isDark ? 'light' : 'dark';
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('lifespin_theme', html.dataset.theme);
+  });
+
+  // Spin triggers
+  const doSpin = () => {
+    if (wheel.spinning) return;
+    spinBtn.disabled = true;
+    centerBtn.classList.add('spinning');
+    centerBtn.textContent = '⏳';
+    wheel.spin();
+    Monetization.onSpin();
+  };
+
+  const spinBtn = document.getElementById('spinBtn');
+  const centerBtn = document.getElementById('centerBtn');
+  spinBtn.addEventListener('click', doSpin);
+  centerBtn.addEventListener('click', doSpin);
+  document.getElementById('spinWheel').addEventListener('click', doSpin);
+
+  // Keyboard support
+  document.getElementById('spinWheel').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doSpin(); }
+  });
+
+  // On result
+  wheel.onResult((result) => {
+    spinBtn.disabled = false;
+    centerBtn.classList.remove('spinning');
+    centerBtn.textContent = '🌀';
+    document.getElementById('spinCountDisplay').textContent = wheel.spinCount;
+    showResult(result);
+    Download.setResult(result, wheel);
+    updateHistoryUI(wheel.history);
+  });
+
+  // Result actions
+  document.getElementById('downloadPngBtn').addEventListener('click', () => Download.downloadPng());
+  document.getElementById('downloadPdfBtn').addEventListener('click', () => Download.downloadPdf());
+  document.getElementById('shareBtn').addEventListener('click', () => Download.share());
+  document.getElementById('voiceBtn').addEventListener('click', () => {
+    const msg = document.getElementById('resultMessage').textContent;
+    if (msg) Download.speak(msg, i18n.currentLang + '-' + (i18n.currentLang === 'en' ? 'US' : ''));
+  });
+
+  // Pro button
+  document.getElementById('proBtn').addEventListener('click', () => {
+    document.getElementById('proModal').classList.add('open');
+  });
+
+  // Pro checkout
+  document.getElementById('proCheckoutBtn').addEventListener('click', () => {
+    showToast('🚀 Pro coming soon! You\'ll be first to know.');
+    document.getElementById('proModal').classList.remove('open');
+  });
+
+  // Clear history
+  document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+    if (confirm('Clear all spin history?')) {
+      wheel.history = [];
+      localStorage.removeItem('lifespin_history');
+      updateHistoryUI([]);
+      showToast('History cleared.');
+    }
+  });
+
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+
+  // Load existing history
+  updateHistoryUI(wheel.history);
+
+  // Init monetization
+  Monetization.init();
+
+  // ── Show Result ──
+  function showResult(result) {
+    const panel = document.getElementById('resultPanel');
+    const idle = document.getElementById('resultIdle');
+    const content = document.getElementById('resultContent');
+    const badge = document.getElementById('resultBadge');
+    const message = document.getElementById('resultMessage');
+    const timestamp = document.getElementById('resultTimestamp');
+
+    const catIcons = { decision: '💡', health: '🩺', personal: '🌱', inspire: '✨' };
+    const badgeClass = { decision: 'badge-decision', health: 'badge-health', personal: 'badge-personal', inspire: 'badge-inspire' };
+    const catName = i18n.t(`categories.${result.category}`);
+
+    badge.className = `result-category-badge ${badgeClass[result.category]}`;
+    badge.innerHTML = `${catIcons[result.category]} ${catName}`;
+    message.textContent = result.text;
+
+    const now = new Date();
+    timestamp.textContent = `${i18n.t('timestamp')} ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+
+    idle.style.display = 'none';
+    content.classList.add('visible');
+    panel.classList.add('has-result');
+  }
+
+  // ── History UI ──
+  function updateHistoryUI(history) {
+    const grid = document.getElementById('historyGrid');
+    if (!history || !history.length) {
+      grid.innerHTML = `<div class="history-empty" data-i18n="historyEmpty">${i18n.t('historyEmpty')}</div>`;
+      return;
+    }
+    const catIcons = { decision: '💡', health: '🩺', personal: '🌱', inspire: '✨' };
+    const badgeClass = { decision: 'badge-decision', health: 'badge-health', personal: 'badge-personal', inspire: 'badge-inspire' };
+    grid.innerHTML = history.slice(0, 12).map(item => {
+      const date = new Date(item.timestamp).toLocaleDateString();
+      const time = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return `
+        <div class="history-item">
+          <div class="hi-badge result-category-badge ${badgeClass[item.category] || ''}" style="font-size:0.7rem;padding:0.2rem 0.6rem;">
+            ${catIcons[item.category] || '🌀'} ${i18n.t('categories.' + item.category) || item.category}
+          </div>
+          <p class="hi-msg">${escapeHtml(item.text)}</p>
+          <span class="hi-date">${date} · ${time}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+})();
+
+// ── Toast utility ──
+window.showToast = function(msg, duration = 3000) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
+};
+</script>
+
+</body>
+</html>

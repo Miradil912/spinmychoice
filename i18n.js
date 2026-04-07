@@ -1,0 +1,293 @@
+// ===== Life Spin – i18n Translations =====
+const TRANSLATIONS = {
+  en: {
+    tagline: "Your Daily Oracle",
+    title: "Spin the Wheel of Life",
+    subtitle: "Let the universe guide you. One spin unlocks wisdom across decisions, health, personal growth, and inspiration.",
+    spinBtn: "✦ SPIN THE WHEEL ✦",
+    rngLabel: "Casino-grade RNG",
+    spinsCount: "Total spins:",
+    resultPlaceholder: "Your wisdom awaits…",
+    resultPlaceholderSub: "Press SPIN or click the wheel to reveal your message.",
+    downloadPng: "Save as Image",
+    downloadPdf: "Save as PDF",
+    shareBtn: "Share",
+    voiceBtn: "Read Aloud",
+    categories: { decision: "Life Decision", health: "Health", personal: "Personal Growth", inspire: "Inspiration" },
+    historyTitle: "Your Spin History",
+    historyEmpty: "No spins yet — your journey begins with the first spin.",
+    donateTitle: "Support Life Spin",
+    donateSub: "Help keep this tool free for everyone.",
+    donateBtn: "☕ Buy Me a Coffee",
+    proTitle: "Unlock Pro Spin",
+    proSub: "Access exclusive categories: Career Mastery, Relationship Wisdom, Wealth Building, and 5,000 more messages.",
+    proBtn: "Unlock Pro — $4.99/mo",
+    footerText: "© 2025 Life Spin · Made with ❤️ · ",
+    privacy: "Privacy",
+    terms: "Terms",
+    timestamp: "Spun on",
+    catLegend: "Categories"
+  },
+  es: {
+    tagline: "Tu Oráculo Diario",
+    title: "Gira la Rueda de la Vida",
+    subtitle: "Deja que el universo te guíe. Un giro desbloquea sabiduría en decisiones, salud, crecimiento y motivación.",
+    spinBtn: "✦ GIRAR LA RUEDA ✦",
+    rngLabel: "RNG de nivel casino",
+    spinsCount: "Total de giros:",
+    resultPlaceholder: "Tu sabiduría te espera…",
+    resultPlaceholderSub: "Presiona GIRAR o haz clic en la rueda.",
+    downloadPng: "Guardar imagen",
+    downloadPdf: "Guardar PDF",
+    shareBtn: "Compartir",
+    voiceBtn: "Leer en voz alta",
+    categories: { decision: "Decisión de Vida", health: "Salud", personal: "Crecimiento Personal", inspire: "Inspiración" },
+    historyTitle: "Tu Historial",
+    historyEmpty: "Sin giros aún — tu viaje comienza aquí.",
+    donateTitle: "Apoya Life Spin",
+    donateSub: "Ayuda a mantener esta herramienta gratuita.",
+    donateBtn: "☕ Invítame un café",
+    footerText: "© 2025 Life Spin · Hecho con ❤️ · ",
+    privacy: "Privacidad",
+    terms: "Términos",
+    timestamp: "Girado el",
+    catLegend: "Categorías"
+  },
+  fr: {
+    tagline: "Votre Oracle Quotidien",
+    title: "Faites Tourner la Roue de Vie",
+    subtitle: "Laissez l'univers vous guider. Un tour révèle sagesse en décisions, santé, croissance et inspiration.",
+    spinBtn: "✦ TOURNER LA ROUE ✦",
+    rngLabel: "RNG niveau casino",
+    spinsCount: "Total des tours:",
+    resultPlaceholder: "Votre sagesse vous attend…",
+    resultPlaceholderSub: "Appuyez sur TOURNER ou cliquez sur la roue.",
+    downloadPng: "Enregistrer image",
+    downloadPdf: "Enregistrer PDF",
+    shareBtn: "Partager",
+    voiceBtn: "Lire à voix haute",
+    categories: { decision: "Décision de Vie", health: "Santé", personal: "Croissance Personnelle", inspire: "Inspiration" },
+    historyTitle: "Votre Historique",
+    historyEmpty: "Aucun tour encore — votre voyage commence ici.",
+    donateTitle: "Soutenez Life Spin",
+    donateSub: "Aidez à garder cet outil gratuit.",
+    donateBtn: "☕ Offrez-moi un café",
+    footerText: "© 2025 Life Spin · Fait avec ❤️ · ",
+    privacy: "Confidentialité",
+    terms: "Conditions",
+    timestamp: "Tourné le",
+    catLegend: "Catégories"
+  },
+  de: {
+    tagline: "Ihr Tägliches Orakel",
+    title: "Dreh das Lebensrad",
+    subtitle: "Lass das Universum dich leiten. Eine Drehung enthüllt Weisheit zu Entscheidungen, Gesundheit, Wachstum und Inspiration.",
+    spinBtn: "✦ RAD DREHEN ✦",
+    rngLabel: "Casino-Grade Zufallszahl",
+    spinsCount: "Gesamtdrehungen:",
+    resultPlaceholder: "Deine Weisheit wartet…",
+    resultPlaceholderSub: "Drücke DREHEN oder klicke auf das Rad.",
+    downloadPng: "Als Bild speichern",
+    downloadPdf: "Als PDF speichern",
+    shareBtn: "Teilen",
+    voiceBtn: "Vorlesen",
+    categories: { decision: "Lebensentscheidung", health: "Gesundheit", personal: "Persönliches Wachstum", inspire: "Inspiration" },
+    historyTitle: "Dein Verlauf",
+    historyEmpty: "Noch keine Drehungen — deine Reise beginnt hier.",
+    donateTitle: "Life Spin unterstützen",
+    donateSub: "Hilf, dieses Tool kostenlos zu halten.",
+    donateBtn: "☕ Kauf mir einen Kaffee",
+    footerText: "© 2025 Life Spin · Mit ❤️ gemacht · ",
+    privacy: "Datenschutz",
+    terms: "Bedingungen",
+    timestamp: "Gedreht am",
+    catLegend: "Kategorien"
+  },
+  hi: {
+    tagline: "आपका दैनिक मार्गदर्शक",
+    title: "जीवन का चक्र घुमाएं",
+    subtitle: "ब्रह्मांड को आपका मार्गदर्शन करने दें। एक स्पिन निर्णय, स्वास्थ्य, विकास और प्रेरणा में ज्ञान देता है।",
+    spinBtn: "✦ चक्र घुमाएं ✦",
+    rngLabel: "कैसीनो-ग्रेड यादृच्छिकता",
+    spinsCount: "कुल स्पिन:",
+    resultPlaceholder: "आपका ज्ञान आपका इंतजार कर रहा है…",
+    resultPlaceholderSub: "SPIN दबाएं या चक्र पर क्लिक करें।",
+    downloadPng: "छवि सहेजें",
+    downloadPdf: "PDF सहेजें",
+    shareBtn: "साझा करें",
+    voiceBtn: "ज़ोर से पढ़ें",
+    categories: { decision: "जीवन निर्णय", health: "स्वास्थ्य", personal: "व्यक्तिगत विकास", inspire: "प्रेरणा" },
+    historyTitle: "आपका इतिहास",
+    historyEmpty: "अभी तक कोई स्पिन नहीं — आपकी यात्रा यहाँ से शुरू होती है।",
+    donateTitle: "Life Spin का समर्थन करें",
+    donateSub: "इस टूल को सबके लिए मुफ़्त रखने में मदद करें।",
+    donateBtn: "☕ मुझे कॉफ़ी खिलाएं",
+    footerText: "© 2025 Life Spin · ❤️ के साथ बनाया · ",
+    privacy: "गोपनीयता",
+    terms: "नियम",
+    timestamp: "घुमाया गया",
+    catLegend: "श्रेणियाँ"
+  },
+  ja: {
+    tagline: "あなたの毎日の導き",
+    title: "人生のホイールを回そう",
+    subtitle: "宇宙があなたを導きます。一回のスピンで決断・健康・成長・インスピレーションの知恵が解放されます。",
+    spinBtn: "✦ ホイールを回す ✦",
+    rngLabel: "カジノ級乱数生成",
+    spinsCount: "総スピン数:",
+    resultPlaceholder: "あなたの知恵が待っています…",
+    resultPlaceholderSub: "SPINを押すかホイールをクリック。",
+    downloadPng: "画像を保存",
+    downloadPdf: "PDFを保存",
+    shareBtn: "シェアする",
+    voiceBtn: "読み上げる",
+    categories: { decision: "人生の決断", health: "健康", personal: "自己成長", inspire: "インスピレーション" },
+    historyTitle: "スピン履歴",
+    historyEmpty: "まだスピンしていません — ここから始まります。",
+    donateTitle: "Life Spinをサポート",
+    donateSub: "このツールを無料で続けるためにご支援を。",
+    donateBtn: "☕ コーヒーをご馳走する",
+    footerText: "© 2025 Life Spin · ❤️で作成 · ",
+    privacy: "プライバシー",
+    terms: "利用規約",
+    timestamp: "スピン日時",
+    catLegend: "カテゴリー"
+  },
+  ar: {
+    tagline: "أوراكلك اليومي",
+    title: "أدر عجلة الحياة",
+    subtitle: "دع الكون يرشدك. دورة واحدة تفتح الحكمة في القرارات، الصحة، النمو الشخصي، والإلهام.",
+    spinBtn: "✦ أدر العجلة ✦",
+    rngLabel: "عشوائية من مستوى الكازينو",
+    spinsCount: "إجمالي الدورات:",
+    resultPlaceholder: "حكمتك في انتظارك…",
+    resultPlaceholderSub: "اضغط SPIN أو انقر على العجلة.",
+    downloadPng: "حفظ كصورة",
+    downloadPdf: "حفظ كـ PDF",
+    shareBtn: "مشاركة",
+    voiceBtn: "قراءة بصوت",
+    categories: { decision: "قرار الحياة", health: "الصحة", personal: "النمو الشخصي", inspire: "الإلهام" },
+    historyTitle: "سجل دوراتك",
+    historyEmpty: "لا دورات بعد — رحلتك تبدأ هنا.",
+    donateTitle: "ادعم Life Spin",
+    donateSub: "ساعد في إبقاء هذه الأداة مجانية للجميع.",
+    donateBtn: "☕ اشترِ لي قهوة",
+    footerText: "© 2025 Life Spin · صُنع بـ ❤️ · ",
+    privacy: "الخصوصية",
+    terms: "الشروط",
+    timestamp: "تم الدوران في",
+    catLegend: "الفئات"
+  },
+  pt: {
+    tagline: "Seu Oráculo Diário",
+    title: "Gire a Roda da Vida",
+    subtitle: "Deixe o universo te guiar. Um giro desbloqueia sabedoria em decisões, saúde, crescimento pessoal e inspiração.",
+    spinBtn: "✦ GIRAR A RODA ✦",
+    rngLabel: "RNG nível cassino",
+    spinsCount: "Total de giros:",
+    resultPlaceholder: "Sua sabedoria espera…",
+    resultPlaceholderSub: "Pressione GIRAR ou clique na roda.",
+    downloadPng: "Salvar imagem",
+    downloadPdf: "Salvar PDF",
+    shareBtn: "Compartilhar",
+    voiceBtn: "Ler em voz alta",
+    categories: { decision: "Decisão de Vida", health: "Saúde", personal: "Crescimento Pessoal", inspire: "Inspiração" },
+    historyTitle: "Seu Histórico",
+    historyEmpty: "Sem giros ainda — sua jornada começa aqui.",
+    donateTitle: "Apoie o Life Spin",
+    donateSub: "Ajude a manter esta ferramenta gratuita.",
+    donateBtn: "☕ Me pague um café",
+    footerText: "© 2025 Life Spin · Feito com ❤️ · ",
+    privacy: "Privacidade",
+    terms: "Termos",
+    timestamp: "Girado em",
+    catLegend: "Categorias"
+  },
+  zh: {
+    tagline: "您的每日神谕",
+    title: "转动生命之轮",
+    subtitle: "让宇宙引导您。一次旋转解锁决策、健康、个人成长与灵感的智慧。",
+    spinBtn: "✦ 转动命运之轮 ✦",
+    rngLabel: "赌场级随机数",
+    spinsCount: "总旋转次数:",
+    resultPlaceholder: "您的智慧在等待…",
+    resultPlaceholderSub: "按SPIN或点击轮盘。",
+    downloadPng: "保存图片",
+    downloadPdf: "保存PDF",
+    shareBtn: "分享",
+    voiceBtn: "朗读",
+    categories: { decision: "人生决策", health: "健康", personal: "个人成长", inspire: "激励" },
+    historyTitle: "旋转历史",
+    historyEmpty: "还没有旋转记录 — 从这里开始您的旅程。",
+    donateTitle: "支持 Life Spin",
+    donateSub: "帮助我们继续免费提供这个工具。",
+    donateBtn: "☕ 请我喝杯咖啡",
+    footerText: "© 2025 Life Spin · 用 ❤️ 制作 · ",
+    privacy: "隐私",
+    terms: "条款",
+    timestamp: "旋转时间",
+    catLegend: "类别"
+  },
+  ru: {
+    tagline: "Ваш Ежедневный Оракул",
+    title: "Крутите Колесо Жизни",
+    subtitle: "Пусть вселенная ведёт вас. Один поворот открывает мудрость в решениях, здоровье, росте и вдохновении.",
+    spinBtn: "✦ КРУТИТЬ КОЛЕСО ✦",
+    rngLabel: "RNG казино-уровня",
+    spinsCount: "Всего вращений:",
+    resultPlaceholder: "Ваша мудрость ждёт…",
+    resultPlaceholderSub: "Нажмите SPIN или кликните на колесо.",
+    downloadPng: "Сохранить как картинку",
+    downloadPdf: "Сохранить как PDF",
+    shareBtn: "Поделиться",
+    voiceBtn: "Прочитать вслух",
+    categories: { decision: "Решение жизни", health: "Здоровье", personal: "Личностный рост", inspire: "Вдохновение" },
+    historyTitle: "История вращений",
+    historyEmpty: "Ещё нет вращений — ваш путь начинается здесь.",
+    donateTitle: "Поддержите Life Spin",
+    donateSub: "Помогите сохранить инструмент бесплатным.",
+    donateBtn: "☕ Угостите меня кофе",
+    footerText: "© 2025 Life Spin · Сделано с ❤️ · ",
+    privacy: "Конфиденциальность",
+    terms: "Условия",
+    timestamp: "Вращение",
+    catLegend: "Категории"
+  }
+};
+
+// ── i18n Engine ──
+const i18n = {
+  currentLang: 'en',
+
+  init() {
+    const saved = localStorage.getItem('lifespin_lang') || navigator.language?.split('-')[0] || 'en';
+    this.setLang(Object.keys(TRANSLATIONS).includes(saved) ? saved : 'en');
+  },
+
+  setLang(lang) {
+    this.currentLang = lang;
+    localStorage.setItem('lifespin_lang', lang);
+    document.documentElement.lang = lang;
+    document.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    this.applyTranslations();
+  },
+
+  t(key) {
+    const keys = key.split('.');
+    let val = TRANSLATIONS[this.currentLang] || TRANSLATIONS.en;
+    for (const k of keys) { val = val?.[k]; }
+    return val || key;
+  },
+
+  applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      el.textContent = this.t(key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      el.placeholder = this.t(el.dataset.i18nPlaceholder);
+    });
+    // Update page title
+    document.title = `Life Spin — ${this.t('title')}`;
+  }
+};
